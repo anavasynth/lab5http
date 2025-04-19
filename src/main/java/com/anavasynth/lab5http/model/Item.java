@@ -9,14 +9,12 @@ package com.anavasynth.lab5http.model;
 */
 
 public class Item {
-    private Long id;
-    private String name;
-    private String code;
-    private String description;
+    private final Long id;
+    private final String name;
+    private final String code;
+    private final String description;
 
-    // Constructors
-    public Item() {}
-
+    // Constructor
     public Item(Long id, String name, String code, String description) {
         this.id = id;
         this.name = name;
@@ -24,36 +22,20 @@ public class Item {
         this.description = description;
     }
 
-    // Getters and setters
+    // Getters only (no setters needed if fields are final)
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

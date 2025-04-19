@@ -37,13 +37,20 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item createItem(Item item) {
-        item.setId(idCounter++);
-        return itemRepository.save(item);
+        Long newId = idCounter++;
+        Item newItem = new Item(newId, item.getName(), item.getCode(), item.getDescription());
+        return itemRepository.save(newItem);
     }
 
     @Override
     public Item updateItem(Item item) {
-        return itemRepository.update(item);
+        // Перевірка, чи існує такий елемент
+        if (itemRepository.findById(item.getId()).isPresent()) {
+            Item updatedItem = new Item(item.getId(), item.getName(), item.getCode(), item.getDescription());
+            return itemRepository.update(updatedItem);
+        } else {
+            return null; // або кидати виняток
+        }
     }
 
     @Override
