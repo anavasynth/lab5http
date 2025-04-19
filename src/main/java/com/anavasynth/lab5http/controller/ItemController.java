@@ -3,7 +3,12 @@ package com.anavasynth.lab5http.controller;
 import com.anavasynth.lab5http.model.Item;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import com.anavasynth.lab5http.model.Item;
+import com.anavasynth.lab5http.service.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /* 
   @author  Anavasynth
@@ -17,34 +22,35 @@ import java.util.*;
 @RequestMapping("/api/v1/items")
 public class ItemController {
 
-    private Map<Long, Item> itemMap = new HashMap<>();
-    private Long idCounter = 1L;
+    private final ItemService itemService;
+
+    @Autowired
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @GetMapping("/")
     public Collection<Item> getAllItems() {
-        return itemMap.values();
+        return itemService.getAllItems();
     }
 
     @GetMapping("/{id}")
     public Item getItem(@PathVariable Long id) {
-        return itemMap.get(id);
+        return itemService.getItemById(id);
     }
 
     @PostMapping("/")
     public Item createItem(@RequestBody Item item) {
-        item.setId(idCounter++);
-        itemMap.put(item.getId(), item);
-        return item;
+        return itemService.createItem(item);
     }
 
     @PutMapping("/")
-    public Item updateItem(@RequestBody Item updatedItem) {
-        itemMap.put(updatedItem.getId(), updatedItem);
-        return updatedItem;
+    public Item updateItem(@RequestBody Item item) {
+        return itemService.updateItem(item);
     }
 
     @DeleteMapping("/{id}")
     public void deleteItem(@PathVariable Long id) {
-        itemMap.remove(id);
+        itemService.deleteItem(id);
     }
 }
